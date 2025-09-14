@@ -3,11 +3,9 @@
 #include<iostream>
 using namespace std;
 
-
 using std::cin;
 using std::cout;
 using std::endl;
-
 
 #define tab "\t"
 
@@ -102,7 +100,6 @@ public:
 	void print()const {
 		Element* Temp = Head;	//	Temp - это итератор.
 		//	Итератор - указатель, при помощи которого можно перебирать элементы структуры данных
-		
 		while (Temp) {
 			cout << Temp << tab << Temp->Data << tab<< Temp->pNext << endl;
 			Temp = Temp->pNext;
@@ -169,7 +166,6 @@ void main() {
 	cout << "Введите значение добавляемого элемента: "; cin >> value;
 	list1.insert(value, index);
 	list1.print();
-
 }
 
 
