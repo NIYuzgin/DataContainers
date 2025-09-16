@@ -58,10 +58,28 @@ public:
 		cout << "FLConstructor:\t" << this << endl;
 	}
 
-	ForwardList(int size):ForwardList() {
+	explicit ForwardList(int size):ForwardList() {
 		while (size--)push_front(0);
 		cout << "FLSizeConstructor:\t" << this << endl;
 	}
+	
+	ForwardList(const std::initializer_list<int>& il):ForwardList() {
+		//initializer_list - это контейнер.
+		//Контейнер - это объект, который организует хранение других объектов в памяти.
+		//Контейнеры как правило передаются в функцию по константной ссылке для экономии ресурсов.
+		//У любого контейнера есть метод begin(), который возвращает Итератор на начало контейнера,
+		//и метод end(), который возвращает итератор на конец контейнера.
+		cout << typeid(il.begin()).name() << endl;
+		for (int const* it = il.begin(); it != il.end(); it++)
+		{
+			push_back(*it);
+		}
+		cout << "FLitConstructor:\t" << this << endl;
+		
+		
+	}
+
+
 
 
 
@@ -242,12 +260,24 @@ ForwardList operator+(const ForwardList& left, const ForwardList& right) {
 	return fusion;
 }
 
+void Print(int arr[]) {
+	cout << typeid(arr).name() << endl;
+	cout << sizeof(arr) / sizeof(arr[0]) << endl;
+	/*
+	for (int i : arr) {
+		cout << i << tab;
+	}
+	cout << endl;
+	*/
+}
+
 //#define BASE_CHECK
 //#define OPERATOR_PLUS_CHECK
 //#define PERFORMANCE_CHECK
 //#define SUBSCRIPT_OPERATOR_CHECK
 //#define COPY_SEMANTIC_PERFORMANCE_CHECK
-#define MOVE_SEMANTIC_CHECK
+//#define MOVE_SEMANTIC_CHECK
+//#define RANGE_BASED_FOR_ARRAY
 
 
 void main() {
@@ -332,17 +362,17 @@ void main() {
 	int n;
 	cout << "Введите размер списка: "; cin >> n;
 	ForwardList list;
-	
+
 	clock_t t_start = clock();
-	
+
 	for (int i = 0; i < n; i++) {
 		//list.push_back(rand() % 100);
 		list.push_front(rand() % 100);
 	}
-	
+
 	clock_t t_end = clock();
-	
-	cout << "ForwardList filled for "<< double (t_end - t_start)/CLOCKS_PER_SEC << " sec. ";
+
+	cout << "ForwardList filled for " << double(t_end - t_start) / CLOCKS_PER_SEC << " sec. ";
 	system("PAUSE");
 #endif PERFORMANCE_CHECK
 
@@ -404,7 +434,7 @@ void main() {
 	ForwardList list3 = list1 + list2;
 	t_end = clock();
 	cout << "Lists concatenated for " << double(t_end - t_start) / CLOCKS_PER_SEC << " seconds" << endl;
-	
+
 	t_start = clock();
 	ForwardList list4 = list3;
 	t_end = clock();
@@ -412,8 +442,28 @@ void main() {
 
 #endif MOVE_SEMANTIC_CHECK
 
+#ifdef RANGE_BASED_FOR_ARRAY
+	int arr[] = { 3,5,8,13,21 };
+	for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++) {
+		cout << arr[i] << tab;
+	}
+	cout << endl;
 
+	// Range-based for - for для диапазона. Под диапазоном понимается контейнер (какой-то набор элементов) 
+	for (int i : arr) {
+		cout << i << tab;
+	}
+	cout << endl;
+	cout << typeid(arr).name() << endl;
+	Print(arr);
+#endif RANGE_BASED_FOR_ARRAY
 
+	ForwardList list = {3, 5, 8, 13, 21}; // Перечисление значений в фигурных скобках через запятую
+	// неявно создает объект класса 'initializer_list';
+	list.print();
+	//for (int i : list) cout << i << tab; cout << endl;
+	
+	
 }
 
 
