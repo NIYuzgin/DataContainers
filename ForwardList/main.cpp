@@ -35,11 +35,39 @@ public:
 #endif DEBUG
 
 	}
+	friend class Iterator;
 	friend class ForwardList;
 	friend ForwardList operator+(const ForwardList& left, const ForwardList& right);
 };
 
 int Element::count = 0;
+
+class Iterator {
+	Element* Temp;
+public:
+	Iterator(Element* Temp = nullptr) :Temp(Temp) {
+		cout << "ItConstructor:\t" << this << endl;
+	}
+	~Iterator() {
+		cout << "ItDestructor:\t" << this << endl;
+	}
+	Iterator& operator++() {
+		Temp = Temp->pNext;
+		return *this;
+	}
+	bool operator==(const Iterator& other)const {
+		return this->Temp == other.Temp;
+	}
+	bool operator!=(const Iterator& other)const {
+		return this->Temp != other.Temp;
+	}
+	int operator*()const {
+		return Temp->Data;
+	}
+	int& operator*() {
+		return Temp->Data;
+	}
+};
 
 class ForwardList {
 	Element* Head;
@@ -49,8 +77,15 @@ public:
 		return Head;
 	}
 	size_t get_size()const {
-			return size;
-		}
+		return size;
+	}
+	Iterator begin() {
+		return Head;
+	}
+	Iterator end() {
+		return nullptr;
+	}
+
 	ForwardList() {
 		// Конструктор по умолчанию - создает пустой список
 		Head = nullptr;	//Если список пуст, то его голова указывает на '0'
@@ -75,13 +110,7 @@ public:
 			push_back(*it);
 		}
 		cout << "FLitConstructor:\t" << this << endl;
-		
-		
 	}
-
-
-
-
 
 	ForwardList(const ForwardList& other): ForwardList() {
 		//Deep copy (побитовое копирование):
@@ -227,7 +256,6 @@ public:
 		//	а он указывает на ту же память, на которую указывает наш основной список,
 		//	следовательно, деструктор удалит и наш основной список.
 	}
-
 
 	void print()const {
 
@@ -461,7 +489,7 @@ void main() {
 	ForwardList list = {3, 5, 8, 13, 21}; // Перечисление значений в фигурных скобках через запятую
 	// неявно создает объект класса 'initializer_list';
 	list.print();
-	//for (int i : list) cout << i << tab; cout << endl;
+	for (int i : list) cout << i << tab; cout << endl;
 	
 	
 }
