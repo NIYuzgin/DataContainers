@@ -52,31 +52,25 @@ public:
 
 	int minValue(Element* Root) {
 		
-		return Root == nullptr ? 0 : Root->pLeft == nullptr ? Root->Data : minValue(Root->pLeft);
-		
+		return Root == nullptr ? INT_MIN : Root->pLeft == nullptr ? Root->Data : minValue(Root->pLeft);
 		/*
 		if (Root->pLeft == nullptr)return Root->Data;
 		else return minValue(Root->pLeft);
 		*/
 	}
 
-
-
-
 	int maxValue(Element* Root) {
 		
-		return Root->pRight == nullptr ? Root->Data : maxValue(Root->pRight);
+		return !Root ? INT_MIN : Root->pRight ? maxValue(Root->pRight) : Root->Data;
 		/*
 		if (Root->pRight == nullptr)return Root->Data;
 		else return maxValue(Root->pRight);
 		*/
-
 	}
 
 	int count(Element* Root) {
 		
 		return !Root ? 0 : count(Root->pLeft) + count(Root->pRight) + 1;
-		
 		/*
 		if (Root == nullptr)return 0;
 		else return count(Root->pLeft) + count(Root->pRight) + 1;
@@ -97,8 +91,10 @@ void main() {
 	int n;
 	cout << "Введите количество элементов "; cin>>n;
 	Tree tree;
+	cout << "Минимальное значение в дереве: " << tree.minValue(tree.GetRoot()) << endl;
+	cout << "Максимальное значение в дереве: " << tree.maxValue(tree.GetRoot()) << endl;
 
-	for(int i = 0;i<n;i++){
+	for(int i = 0; i < n; i++){
 		tree.insert(rand() % 100, tree.GetRoot());
 	}
 	tree.print(tree.GetRoot());
