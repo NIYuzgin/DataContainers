@@ -226,7 +226,7 @@ public:
 template<typename T>void measure_performance(const char message[], T(Tree:: *function)() const, const Tree& tree) {
 
 	clock_t start = clock();
-	int result = (tree.*function)();
+	T result = (tree.*function)();
 	clock_t end = clock();
 	cout << message << result << ", вычислено за : " << double(end-start)/CLOCKS_PER_SEC << " секунд\n" <<  endl;
 }
