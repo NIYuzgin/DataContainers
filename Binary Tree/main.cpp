@@ -59,7 +59,12 @@ public:
 		clear();
 		cout << "TDestructor:\t" << this << endl;
 	}
+	  
 
+	void balance() {
+		balance(Root);
+		//Root = nullptr;
+	}
 	void clear() {
 		clear(Root);
 		Root = nullptr;
@@ -94,7 +99,27 @@ public:
 	}
 
 private:
-	
+	void balance(Element*& Root) {
+		if (Root == nullptr)return;
+		if (abs(count(Root->pLeft) - count(Root->pRight)) < 2)return;
+		if (count(Root->pLeft) < count(Root->pRight)) {
+			insert(Root->Data, Root->pLeft);
+			Root->Data = minValue(Root->pRight);
+			erase(minValue(Root->pRight), Root->pRight);
+		}
+		if (count(Root->pLeft) > count(Root->pRight)) {
+
+			insert(Root->Data, Root->pRight);
+			Root->Data = maxValue(Root->pLeft);
+			erase(maxValue(Root->pLeft), Root->pLeft);
+
+		}
+
+
+	}
+
+
+
 	void clear(Element*& Root) {
 		if (Root == nullptr)return;
 		clear(Root->pLeft);
@@ -203,7 +228,7 @@ private:
 
 	}
 
-	void depth_print(int depth, Element* Root) const {
+	void depth_print(int depth, Element* Root, int width) const {
 		if (Root == nullptr) return;
 		if (depth == 0)cout << Root->Data << tab;
 		depth_print(depth - 1, Root->pLeft);
@@ -212,11 +237,13 @@ private:
 	}
 
 
-	void tree_print(int depth) const{
+	void tree_print(int depth, int width) const{
 		//if (depth == this->depth(Root)) 
 		if (depth == -1)return;
-		depth_print(depth - 1);
-		tree_print(depth - 1);
+		
+		tree_print(depth - 1, width*1.5);
+		depth_print(depth - 1, width);
+
 
 
 	}
