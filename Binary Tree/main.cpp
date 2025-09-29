@@ -203,6 +203,26 @@ private:
 
 	}
 
+	void depth_print(int depth, Element* Root) const {
+		if (Root == nullptr) return;
+		if (depth == 0)cout << Root->Data << tab;
+		depth_print(depth - 1, Root->pLeft);
+		depth_print(depth - 1, Root->pRight);
+
+	}
+
+
+	void tree_print(int depth) const{
+		//if (depth == this->depth(Root)) 
+		if (depth == -1)return;
+		depth_print(depth - 1);
+		tree_print(depth - 1);
+
+
+	}
+
+
+
 	void print(Element* Root)const {
 		if (Root == nullptr)return;
 		print(Root->pLeft);
